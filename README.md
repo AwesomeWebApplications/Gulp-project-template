@@ -8,5 +8,5 @@
 
 ## Run
 ```
-  gulp serve
+  gulp server
 ```
