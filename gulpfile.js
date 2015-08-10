@@ -45,26 +45,25 @@ gulp.task('templates', function() {
 
 // sass compiler task
 gulp.task('sass', function () {
-  return es.concat(
-    gulp.src('./app/vendors/**/*.scss')
-      .pipe(sass({
-        includePaths: ['vendors/foundation/scss/'],
-      }))
-      .pipe(minifyCss())
-      .pipe(gulp.dest('./app/dist/styles/')),
-    rubysass('./app/styles/app.scss')
-      .on('error', function (err) {
-        console.error('Error!', err.message);
-       })
-      .pipe(minifyCss())
-      .pipe(gulp.dest('./app/dist/styles/'))
-      .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-      .pipe(connect.reload())
-  );
+  return rubysass('./app/styles/app.scss')
+    .on('error', function (err) {
+      console.error('Error!', err.message);
+     })
+    .pipe(minifyCss())
+    .pipe(gulp.dest('./app/dist/styles/'))
+    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(connect.reload());
 });
 
-//vendors
-
+//vendors foundation
+gulp.task('foundation', function() {
+  return gulp.src('./app/vendors/**/*.scss')
+    .pipe(sass({
+      includePaths: ['vendors/foundation/scss/'],
+    }))
+    .pipe(minifyCss())
+    .pipe(gulp.dest('./app/dist/styles/'));
+});
 
 //csscomb
 gulp.task('csscomb', function() {
