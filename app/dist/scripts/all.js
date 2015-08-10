@@ -1,12 +1,3 @@
-var NewSome;
 
-NewSome = (function() {
-  function NewSome() {
-    console.log(123);
-  }
-
-  return NewSome;
-
-})();
-
-NewSome();
+var NewSome;NewSome=(function(){function NewSome(){console.log('New Project');}
+return NewSome;})();NewSome();

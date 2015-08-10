@@ -1,5 +1,5 @@
 class NewSome
   constructor: ->
-    console.log(123)
+    console.log('New Project')
 
 NewSome()

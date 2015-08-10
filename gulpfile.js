@@ -19,7 +19,9 @@ imagemin     = require('gulp-imagemin'),
 rename       = require('gulp-rename'),
 concat       = require('gulp-concat'),
 jade         = require('gulp-jade'),
-csscomb      = require('gulp-csscomb');
+csscomb      = require('gulp-csscomb'),
+jsmin        = require('gulp-jsmin'),
+minifyCss = require('gulp-minify-css');
 
 // Connect Task
 gulp.task('connect', connect.server({
@@ -48,16 +50,21 @@ gulp.task('sass', function () {
       .pipe(sass({
         includePaths: ['vendors/foundation/scss/'],
       }))
+      .pipe(minifyCss())
       .pipe(gulp.dest('./app/dist/styles/')),
     rubysass('./app/styles/app.scss')
       .on('error', function (err) {
         console.error('Error!', err.message);
        })
+      .pipe(minifyCss())
       .pipe(gulp.dest('./app/dist/styles/'))
       .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
       .pipe(connect.reload())
   );
 });
+
+//vendors
+
 
 //csscomb
 gulp.task('csscomb', function() {
@@ -86,17 +93,19 @@ gulp.task('coffee', function () {
   return gulp.src('./app/scripts/*.coffee')
     .pipe(coffee({bare: true}).on('error', gutil.log))
     .pipe(concat('all.js'))
-    .pipe(gulp.dest('./app/dist/scripts/'));
+    .pipe(jsmin())
+    .pipe(gulp.dest('./app/dist/scripts/'))
+    .pipe(connect.reload());
 });
 
 gulp.task('watch', function () {
-  gulp.watch([ './app/styles/**/*.scss'], ['sass', 'csscomb']);
+  gulp.watch([ './app/styles/**/*.scss'], ['sass']);
   gulp.watch([ './app/scripts' + '/**/*.coffee'], ['coffee']);
   gulp.watch(['./app/**/*.html'], ['html']);
   gulp.watch(['./app/views/**/*.jade'], ['templates']);
 });
 
-gulp.task('serve', ['connect', 'sass', 'coffee', 'watch', 'templates', 'csscomb']);
+gulp.task('server', ['connect', 'sass', 'coffee', 'watch', 'templates']);
 
 gulp.task('clean', function () {
   gutil.log('Clean task goes here...');
