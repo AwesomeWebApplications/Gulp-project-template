@@ -1,3 +1,12 @@
-'''
-  Gulp template for new project
-'''
+#   Gulp New Project
+
+
+## Install packages
+```
+  npm install
+```
+
+## Run
+```
+  gulp serve
+```
